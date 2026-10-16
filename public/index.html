@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PopSync – Watch together, perfectly in sync</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ LANDING ============ -->
+<section id="landing">
+  <div class="hero">
+    <div class="marquee" aria-hidden="true"><span>🍿 🎬 🔥 😂 🎉 😱 👏 💀 🍿 🎬 🔥 😂 🎉 😱 👏 💀</span></div>
+    <h1>Press play<br>together.</h1>
+    <p class="lead">Watch any video with your friends, perfectly in sync. Chat, throw reactions, vote on what's next.</p>
+    <div class="join-box">
+      <label for="nameIn">Your name</label>
+      <input id="nameIn" maxlength="20" placeholder="e.g. Anamika" autocomplete="off">
+      <button class="big" id="createBtn">Start a party</button>
+      <div class="or"><span>or join one</span></div>
+      <div class="row">
+        <input id="codeIn" maxlength="6" placeholder="ROOM CODE" autocomplete="off">
+        <button class="ghost" id="joinBtn">Join</button>
+      </div>
+      <p class="err" id="landErr"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROOM ============ -->
+<section id="room" class="hide">
+  <header class="top">
+    <div class="brand">🍿 PopSync</div>
+    <div class="chips">
+      <button class="chip code" id="codeChip" title="Copy invite link">Room <b id="roomCode">······</b> <span>Copy invite</span></button>
+      <button class="chip" id="qrBtn" title="Show QR code">QR</button>
+      <span class="chip" id="conn"><i class="dot"></i><span id="connTxt">Connecting…</span></span>
+      <span class="chip" id="latChip" title="Play/pause propagation in this room (p95)">p95 –</span>
+      <span class="chip" id="driftChip" title="How far your video is from the room">drift –</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="stage">
+      <div class="screen" id="screen">
+        <div id="playerHost"></div>
+        <div class="empty" id="empty">
+          <div class="empty-emoji">🎬</div>
+          <h2>Nothing playing yet</h2>
+          <p>Pick a movie in <b>Discover</b> or paste any YouTube / video link.</p>
+          <div class="row center"><button id="emptyDiscover">Browse movies</button><button class="ghost" id="emptyLink">Paste a link</button></div>
+        </div>
+        <div class="countdown hide" id="countdown"></div>
+        <div class="tapover hide" id="tapover"><button class="big">▶ Tap to join the stream</button></div>
+        <div class="floaters" id="floaters"></div>
+        <div class="toast" id="toast"></div>
+        <div class="hype-mode hide" id="hypeMode">HYPE MODE 🔥</div>
+      </div>
+
+      <div class="controls" id="controls">
+        <button class="ctl" id="playBtn" aria-label="Play">▶</button>
+        <span class="time" id="tNow">0:00</span>
+        <input type="range" id="seek" min="0" max="100" step="0.1" value="0" aria-label="Seek">
+        <span class="time" id="tDur">0:00</span>
+        <button class="ctl small" id="cdBtn" title="3-2-1 countdown start for everyone">3·2·1</button>
+        <button class="ctl small" id="muteBtn" aria-label="Mute">🔊</button>
+        <input type="range" id="vol" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+        <button class="ctl small" id="fsBtn" aria-label="Fullscreen">⛶</button>
+      </div>
+
+      <div class="now">
+        <div><div class="muted small">Now watching</div><div class="now-title" id="nowTitle">–</div></div>
+        <div class="reactions" id="reactions"></div>
+      </div>
+      <div class="hype"><div class="hype-bar"><b id="hypeFill"></b></div><span id="hypeTxt">Hype meter: react to fill it 🔥</span></div>
+    </div>
+
+    <aside class="side">
+      <nav class="tabs" id="tabs">
+        <button data-tab="chat" class="on">Chat</button>
+        <button data-tab="discover">Discover</button>
+        <button data-tab="playlist">Playlist <span id="plCount"></span></button>
+        <button data-tab="poll">Poll</button>
+        <button data-tab="people">People <span id="pplCount"></span></button>
+      </nav>
+
+      <div class="pane" id="pane-chat">
+        <div class="chat" id="chatList"></div>
+        <form class="row" id="chatForm"><input id="chatIn" maxlength="300" placeholder="Say something nice…" autocomplete="off"><button>Send</button></form>
+      </div>
+
+      <div class="pane hide" id="pane-discover">
+        <input id="search" placeholder="Search movies… try 'dragn' or 'robot'" autocomplete="off">
+        <div class="cats" id="cats"></div>
+        <div class="row filters">
+          <select id="fLen"><option value="any">Any length</option><option value="short">Under 5 min</option><option value="mid">5–15 min</option></select>
+          <select id="fSort"><option value="rating">Top rated</option><option value="new">Newest</option><option value="az">A–Z</option></select>
+        </div>
+        <div id="recoWrap"><h3 id="recoTitle">Picked for this room</h3><div class="reco" id="reco"></div></div>
+        <h3 id="resTitle">All movies</h3>
+        <div class="grid" id="results"></div>
+      </div>
+
+      <div class="pane hide" id="pane-playlist">
+        <form class="link-form" id="linkForm">
+          <input id="linkIn" placeholder="Paste a YouTube or .mp4 link" autocomplete="off">
+          <input id="linkTitle" placeholder="Title (optional)" autocomplete="off">
+          <div class="row"><button type="submit" name="act" value="play">▶ Play now</button><button type="submit" class="ghost" name="act" value="add">+ Add to playlist</button></div>
+        </form>
+        <div class="row between"><h3>Up next</h3><button class="ghost small" id="movieVote">🗳 Movie vote</button></div>
+        <p class="muted small">Upvote to move a video up. The top one plays when the current video ends.</p>
+        <div id="plList"></div>
+      </div>
+
+      <div class="pane hide" id="pane-poll"><div id="pollBox"></div></div>
+
+      <div class="pane hide" id="pane-people">
+        <label class="toggle hide" id="freeWrap"><input type="checkbox" id="freeToggle"> Everyone can control playback</label>
+        <div id="pplList"></div>
+        <p class="muted small">Drift = how far each person's video is from the room (target ≤ 500 ms).</p>
+      </div>
+    </aside>
+  </main>
+</section>
+
+<div class="modal hide" id="qrModal"><div class="modal-card"><h3>Scan to join</h3><img id="qrImg" alt="QR code to join this party" width="220" height="220"><p class="muted small" id="qrLink"></p><button class="ghost" id="qrClose">Close</button></div></div>
+
+<script src="catalog.js"></script>
+<script src="player.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

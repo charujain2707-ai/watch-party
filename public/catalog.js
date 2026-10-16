@@ -1,0 +1,25 @@
+// Movie catalog for discovery. Every entry is free to stream (Blender open movies + Google sample videos).
+// src can be a direct video file or any YouTube link.
+const G = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/';
+const yt = id => ({ src: `https://www.youtube.com/watch?v=${id}`, thumb: `https://img.youtube.com/vi/${id}/hqdefault.jpg` });
+const CATALOG = [
+  { title: 'Big Buck Bunny', year: 2008, mins: 10, rating: 4.6, cats: ['Animation', 'Comedy'], tags: ['rabbit', 'blender', 'funny', 'forest'], src: G + 'BigBuckBunny.mp4', thumb: G + 'images/BigBuckBunny.jpg', blurb: 'A gentle giant bunny gets his revenge on three bullies.' },
+  { title: 'Sintel', year: 2010, mins: 15, rating: 4.8, cats: ['Fantasy', 'Action', 'Animation'], tags: ['dragon', 'quest', 'blender', 'sad'], src: G + 'Sintel.mp4', thumb: G + 'images/Sintel.jpg', blurb: 'A lonely girl searches the world for her lost baby dragon.' },
+  { title: 'Tears of Steel', year: 2012, mins: 12, rating: 4.3, cats: ['Sci-Fi', 'Action'], tags: ['robots', 'amsterdam', 'future', 'blender'], src: G + 'TearsOfSteel.mp4', thumb: G + 'images/TearsOfSteel.jpg', blurb: 'Scientists try to save the world from killer robots, and a broken heart.' },
+  { title: 'Elephants Dream', year: 2006, mins: 11, rating: 4.0, cats: ['Sci-Fi', 'Animation'], tags: ['machine', 'surreal', 'blender'], src: G + 'ElephantsDream.mp4', thumb: G + 'images/ElephantsDream.jpg', blurb: 'Two men explore a strange, endless machine world.' },
+  { title: 'Spring', year: 2019, mins: 8, rating: 4.7, cats: ['Fantasy', 'Animation'], tags: ['shepherd', 'dog', 'spirits', 'blender'], ...yt('WhWc3b3KhnY'), blurb: 'A shepherd girl and her dog face ancient spirits to bring back spring.' },
+  { title: 'Cosmos Laundromat', year: 2015, mins: 12, rating: 4.5, cats: ['Sci-Fi', 'Comedy', 'Animation'], tags: ['sheep', 'island', 'surreal', 'blender'], ...yt('Y-rmzh0PI3c'), blurb: 'A suicidal sheep meets a salesman who offers him a new life.' },
+  { title: 'Agent 327', year: 2017, mins: 4, rating: 4.6, cats: ['Action', 'Comedy', 'Animation'], tags: ['spy', 'barbershop', 'blender'], ...yt('mN0zPOpADL4'), blurb: 'A secret agent goes undercover in a very dangerous barbershop.' },
+  { title: 'Caminandes: Llamigos', year: 2016, mins: 3, rating: 4.4, cats: ['Comedy', 'Animation', 'Shorts'], tags: ['llama', 'penguin', 'patagonia', 'blender'], ...yt('SkVqJ1SGeL0'), blurb: 'Koro the llama meets a penguin who wants his berries.' },
+  { title: 'Sprite Fright', year: 2021, mins: 10, rating: 4.7, cats: ['Comedy', 'Animation'], tags: ['horror', 'teens', 'forest', 'blender'], ...yt('_cMxraX_5RE'), blurb: 'Rowdy teens meet the cute, terrifying sprites of a forest.' },
+  { title: 'For Bigger Fun', year: 2013, mins: 1, rating: 3.6, cats: ['Shorts'], tags: ['ad', 'tv'], src: G + 'ForBiggerFun.mp4', thumb: G + 'images/ForBiggerFun.jpg', blurb: 'A one-minute burst of colourful big-screen fun.' },
+  { title: 'For Bigger Blazes', year: 2013, mins: 1, rating: 3.4, cats: ['Shorts'], tags: ['ad', 'fire'], src: G + 'ForBiggerBlazes.mp4', thumb: G + 'images/ForBiggerBlazes.jpg', blurb: 'Fifteen seconds of fire on a big screen.' },
+  { title: 'For Bigger Escapes', year: 2013, mins: 1, rating: 3.5, cats: ['Shorts'], tags: ['ad', 'travel'], src: G + 'ForBiggerEscapes.mp4', thumb: G + 'images/ForBiggerEscapes.jpg', blurb: 'A tiny trip somewhere beautiful.' },
+  { title: 'For Bigger Joyrides', year: 2013, mins: 1, rating: 3.5, cats: ['Shorts', 'Cars'], tags: ['ad', 'drive'], src: G + 'ForBiggerJoyrides.mp4', thumb: G + 'images/ForBiggerJoyrides.jpg', blurb: 'Fast, short and loud.' },
+  { title: 'For Bigger Meltdowns', year: 2013, mins: 1, rating: 3.3, cats: ['Shorts'], tags: ['ad', 'drama'], src: G + 'ForBiggerMeltdowns.mp4', thumb: G + 'images/ForBiggerMeltdowns.jpg', blurb: 'Big feelings in fifteen seconds.' },
+  { title: 'Subaru Outback: Street and Dirt', year: 2014, mins: 10, rating: 3.8, cats: ['Cars'], tags: ['review', 'offroad', 'documentary'], src: G + 'SubaruOutbackOnStreetAndDirt.mp4', thumb: G + 'images/SubaruOutbackOnStreetAndDirt.jpg', blurb: 'A family car tested on tarmac and mud.' },
+  { title: 'Volkswagen GTI Review', year: 2014, mins: 10, rating: 3.9, cats: ['Cars'], tags: ['review', 'hot hatch', 'documentary'], src: G + 'VolkswagenGTIReview.mp4', thumb: G + 'images/VolkswagenGTIReview.jpg', blurb: 'Is the GTI still the king of hot hatches?' },
+  { title: 'We Are Going On Bullrun', year: 2014, mins: 1, rating: 3.7, cats: ['Cars', 'Shorts'], tags: ['rally', 'road trip'], src: G + 'WeAreGoingOnBullrun.mp4', thumb: G + 'images/WeAreGoingOnBullrun.jpg', blurb: 'A crew sets off on a wild road rally.' },
+  { title: 'What Car Can You Get for a Grand?', year: 2014, mins: 9, rating: 3.6, cats: ['Cars', 'Comedy'], tags: ['budget', 'cheap', 'documentary'], src: G + 'WhatCarCanYouGetForAGrand.mp4', thumb: G + 'images/WhatCarCanYouGetForAGrand.jpg', blurb: 'Three hosts, one tiny budget, questionable cars.' }
+];
+const CATEGORIES = ['All', 'Animation', 'Comedy', 'Action', 'Sci-Fi', 'Fantasy', 'Cars', 'Shorts'];
